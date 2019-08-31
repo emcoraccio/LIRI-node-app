@@ -5,15 +5,15 @@ let Spotify = require('node-spotify-api');
 
 // file which accesses keys
 let keys = require("./keys.js");
-
 var spotify = new Spotify(keys.spotify);
 
-let searchTerm = process.argv.slice(3)
 
+let searchTerm = process.argv.slice(3).join("+")
+
+
+// LOGGING DATA FUNCTIONS - TO BE CALLED IN SEARCH FUNCTIONS
 
 let logSongData = (data) => {
-
-  // console.log(data.tracks.items[0]);
 
   // set variables that access accurate info in response
   let artists = data.tracks.items[0].artists[0].name
@@ -38,13 +38,36 @@ let logSongData = (data) => {
 }
 
 
+let logConcertData = (response) => {
+
+  let artist = process.argv.slice(3).join(" ")
+
+  let venue = response.data[0].venue.name;
+  let city = response.data[0].venue.city;
+  let state = response.data[0].venue.region;
+  let rawTime = response.data[0].datetime;
+
+  console.log(`
+  ${artist}
+  Venue: ${venue}
+  Location: ${city}, ${state}
+  Date: ${rawTime}
+  `)
+
+}
+
+
+// SEARCH FUNCTIONS - GET DATA FROM APIS
+
 let searchConcert = () => {
 
-  let queryURL = `https://rest.bandsintown.com/artists/${artist}/events?app_id=codingbootcamp`;
+  let queryURL = `https://rest.bandsintown.com/artists/${searchTerm}/events?app_id=codingbootcamp`;
 
   axios.get(queryURL).then((response) => {
 
+    console.log(response.data[0])
 
+    logConcertData(response)
 
   })
 
