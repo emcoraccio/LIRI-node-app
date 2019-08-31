@@ -1,59 +1,10 @@
 require("dotenv").config();
 
-let Spotify = require('node-spotify-api');
-let axios = require("axios");
+let search = require("./search")
+
+let inquirer = require("inquirer");
 let moment = require("moment");
 let fs = require("fs");
-
-let keys = require("./keys.js");
-
-var spotify = new Spotify(keys.spotify);
-
-
-
-let searchConcert = () => {
-  
-  let queryURL = `https://rest.bandsintown.com/artists/${artist}/events?app_id=codingbootcamp`;
-
-  axios.get(queryURL).then( (response) => {
-
-  })
-  
-}
-
-
-let searchSong = () => {
-
-  spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-    if (err) {
-      return console.log('Error occurred: ' + err);
-    }
-   
-  console.log(data.tracks.items); 
-
-  let artists = data.tracks.items[0].artists
-  console.log(artists)
-
-  let songName = data.tracks.items[0].album.name;
-  console.log(`song-title: ${songName}`)
-  });
-
-}
-
-
-let searchMovie = () => {
-  
-  let queryURL = ``;
-
-  axios.get(queryURL).then( (response) => {
-
-  })
-  
-}
-
-
-
-
 
 
 
@@ -64,15 +15,17 @@ switch (action) {
 
   case "concert-this":
     console.log("search for a concert");
+    search.searchConcert();
     break;
 
   case "spotify-this-song":
     console.log("this is a song");
-    searchSong();
+    search.searchSong();
     break;
 
   case "movie-this":
     console.log("search the movie api");
+    search.searchMovie();
     break;
 
   case "do-what-it-says":
