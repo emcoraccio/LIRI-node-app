@@ -28,12 +28,14 @@ let logConcertData = (response) => {
   let city = response.data[0].venue.city;
   let state = response.data[0].venue.region;
   let rawTime = response.data[0].datetime;
-  
+  let formattedTime = moment(rawTime).format("ddd, MMM Do YYYY, h:mm a")
+
+
   console.log(`
   ${artist}
   Venue: ${venue}
   Location: ${city}, ${state}
-  Date: ${rawTime}
+  Date: ${formattedTime}
   `)
 
 }
@@ -97,7 +99,6 @@ let searchConcert = () => {
 
   console.log(searchTerm)
   let queryURL = `https://rest.bandsintown.com/artists/${searchTerm}/events?app_id=codingbootcamp`;
-  // let queryURL = `https://rest.bandsintown.com/artists/Miranda+Lambert/events?app_id=codingbootcamp`;
 
   axios.get(queryURL)
     .then((response) => {
