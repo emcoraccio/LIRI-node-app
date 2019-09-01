@@ -112,13 +112,11 @@ let logMovieData = (response) => {
 
 let searchConcert = () => {
 
-  console.log(searchTerm)
   let queryURL = `https://rest.bandsintown.com/artists/${searchTerm}/events?app_id=codingbootcamp`;
 
   axios.get(queryURL)
     .then((response) => {
 
-      // console.log(response.data)
       logConcertData(response)
 
     })
@@ -199,24 +197,20 @@ let performAction = () => {
 
     case "concert-this":
     case "concert":
-      console.log("search for a concert");
       searchConcert();
       break;
 
     case "spotify-this-song":
     case "song":
-      console.log("this is a song");
       searchSong();
       break;
 
     case "movie-this": 
     case "movie":
-      console.log("search the movie api");
       searchMovie();
       break;
 
     case "do-what-it-says":
-      console.log("run from the file");
       readFile();
       break;
 
@@ -252,7 +246,6 @@ let searchType = () => {
       else {
 
         action = `${type.searchType}`;
-        console.log(action)
         searchQuery(type);
 
       }
@@ -274,9 +267,6 @@ let searchQuery = (type) => {
 
     searchTerm = response.searchName
     searchTerm = searchTerm.split(" ").join("+")
-    console.log(`search: ${searchTerm}`)
-
-    console.log(`action: ${action}`)
 
     performAction();
 
