@@ -15,6 +15,7 @@ var spotify = new Spotify(keys.spotify);
 let artist = ""
 let action;
 let searchTerm;
+let index = 0;
 
 if (process.argv[2]) {
 
@@ -34,10 +35,10 @@ if (process.argv[3]) {
 
 let logConcertData = (response) => {
 
-  artist ? artist = artist : 
-  process.argv[3] ? artist = process.argv.slice(3).join(" ") : 
-  searchTerm ? artist = searchTerm.split("+").join(" ") :
-  artist = "unknown"
+  artist ? artist = artist :
+    process.argv[3] ? artist = process.argv.slice(3).join(" ") :
+      searchTerm ? artist = searchTerm.split("+").join(" ") :
+        artist = "unknown"
 
   let venue = response.data[0].venue.name;
   let city = response.data[0].venue.city;
@@ -53,6 +54,8 @@ let logConcertData = (response) => {
   Date: ${formattedTime}
   `)
 
+  anotherSearch();
+
 }
 
 
@@ -60,11 +63,11 @@ let logConcertData = (response) => {
 let logSongData = (data) => {
 
   // set variables that access accurate info in response
-  let artists = data.tracks.items[0].artists[0].name;
-  let songName = data.tracks.items[0].name;
-  let albumName = data.tracks.items[0].album.name;
-  let songPreview = data.tracks.items[0].preview_url;
-  let songHref = data.tracks.items[0].href;
+  let artists = data.tracks.items[index].artists[0].name;
+  let songName = data.tracks.items[index].name;
+  let albumName = data.tracks.items[index].album.name;
+  let songPreview = data.tracks.items[index].preview_url;
+  let songHref = data.tracks.items[index].href;
   let preview;
 
   //  conditional to display correct link for preview
@@ -78,6 +81,8 @@ let logSongData = (data) => {
   album-title: ${albumName}
   ${preview}
   `)
+
+  nextEntry();
 
 }
 
@@ -104,6 +109,8 @@ let logMovieData = (response) => {
   Plot: ${plot}
   `)
 
+  anotherSearch();
+
 }
 
 
@@ -120,7 +127,7 @@ let searchConcert = () => {
       logConcertData(response)
 
     })
-    .catch (function (error) {
+    .catch(function (error) {
       console.log(error)
     })
 
@@ -205,7 +212,7 @@ let performAction = () => {
       searchSong();
       break;
 
-    case "movie-this": 
+    case "movie-this":
     case "movie":
       searchMovie();
       break;
@@ -219,6 +226,7 @@ let performAction = () => {
       break;
 
   }
+
 }
 
 
@@ -237,8 +245,8 @@ let searchType = () => {
     ]).then(function (type) {
 
 
-      if(type.searchType === "search from the file") {
-        
+      if (type.searchType === "search from the file") {
+
         action = "do-what-it-says"
         performAction();
 
@@ -271,6 +279,68 @@ let searchQuery = (type) => {
     performAction();
 
   })
+
+}
+
+let nextEntry = () => {
+
+  inquirer.prompt([
+
+    {
+      type: "confirm",
+      name: "correctSong",
+      message: "Is this the song you were looking for?"
+    }
+
+  ]).then(response => {
+
+    if (!response.correctSong) {
+      if (index < 19) {
+        
+        index++
+        searchSong();
+
+      }
+      else {
+
+        console.log("That is all of the available song info")
+        index = 0;
+        anotherSearch();
+
+      }
+    }
+    else {
+
+      index = 0;
+      anotherSearch();
+      
+    }
+
+  }) 
+
+
+
+}
+
+let anotherSearch = () => {
+
+  if (!process.argv[2]) {
+
+    inquirer.prompt([
+
+      {
+        type: "confirm",
+        name: "searchAgain",
+        message: "Would you like to make another search?"
+      }
+
+    ]).then(response => {
+
+      if (response.searchAgain) searchType() 
+
+    })
+
+  }
 
 }
 
