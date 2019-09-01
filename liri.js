@@ -2,9 +2,14 @@ require("dotenv").config();
 
 let search = require("./search")
 
-let inquirer = require("inquirer");
 
+if(process.argv[2]) {
 
+  search.performAction();
 
-search.performAction();
+}
+else {
 
+  search.searchType();
+
+}

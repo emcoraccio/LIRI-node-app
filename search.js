@@ -3,16 +3,30 @@
 let axios = require("axios");
 let moment = require("moment");
 let fs = require("fs");
+let inquirer = require("inquirer");
 
 let Spotify = require('node-spotify-api');
+
 
 // file which accesses keys
 let keys = require("./keys.js");
 var spotify = new Spotify(keys.spotify);
 
 let artist = ""
-let action = process.argv[2];
-let searchTerm = process.argv.slice(3).join("+")
+let action;
+let searchTerm;
+
+if (process.argv[2]) {
+
+  action = process.argv[2];
+
+}
+
+if (process.argv[3]) {
+
+  searchTerm = process.argv.slice(3).join("+");
+
+}
 
 
 
@@ -22,6 +36,7 @@ let logConcertData = (response) => {
 
   artist ? artist = artist : 
   process.argv[3] ? artist = process.argv.slice(3).join(" ") : 
+  searchTerm ? artist = searchTerm.split("+").join(" ") :
   artist = "unknown"
 
   let venue = response.data[0].venue.name;
@@ -183,16 +198,19 @@ let performAction = () => {
   switch (action) {
 
     case "concert-this":
+    case "concert":
       console.log("search for a concert");
       searchConcert();
       break;
 
     case "spotify-this-song":
+    case "song":
       console.log("this is a song");
       searchSong();
       break;
 
-    case "movie-this":
+    case "movie-this": 
+    case "movie":
       console.log("search the movie api");
       searchMovie();
       break;
@@ -211,8 +229,66 @@ let performAction = () => {
 
 
 
+let searchType = () => {
+
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "searchType",
+        message: "What would you like to search for?",
+        choices: ["song", "movie", "concert", "search from the file"]
+      }
+
+    ]).then(function (type) {
+
+
+      if(type.searchType === "search from the file") {
+        
+        action = "do-what-it-says"
+        performAction();
+
+      }
+      else {
+
+        action = `${type.searchType}`;
+        console.log(action)
+        searchQuery(type);
+
+      }
+
+    })
+}
+
+let searchQuery = (type) => {
+
+  inquirer.prompt([
+    {
+
+      type: "input",
+      name: "searchName",
+      message: `Which ${type.searchType} are you looking for info on?`
+    }
+
+  ]).then(response => {
+
+    searchTerm = response.searchName
+    searchTerm = searchTerm.split(" ").join("+")
+    console.log(`search: ${searchTerm}`)
+
+    console.log(`action: ${action}`)
+
+    performAction();
+
+  })
+
+}
+
+
+
 module.exports = {
 
+  searchType: searchType,
   performAction: performAction
 
 }
