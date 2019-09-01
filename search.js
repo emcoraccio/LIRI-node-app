@@ -1,27 +1,34 @@
 //FILE WHICH CONTAINS SEARCH FUNCTIONS - ACCESSES APIS
 
 let axios = require("axios");
+let moment = require("moment");
+let fs = require("fs");
+
 let Spotify = require('node-spotify-api');
 
 // file which accesses keys
 let keys = require("./keys.js");
 var spotify = new Spotify(keys.spotify);
 
-
+let artist = ""
+let action = process.argv[2];
 let searchTerm = process.argv.slice(3).join("+")
+
 
 
 // LOGGING DATA FUNCTIONS - TO BE CALLED IN SEARCH FUNCTIONS
 
 let logConcertData = (response) => {
 
-  let artist = process.argv.slice(3).join(" ")
+  artist ? artist = artist : 
+  process.argv[3] ? artist = process.argv.slice(3).join(" ") : 
+  artist = "unknown"
 
   let venue = response.data[0].venue.name;
   let city = response.data[0].venue.city;
   let state = response.data[0].venue.region;
   let rawTime = response.data[0].datetime;
-
+  
   console.log(`
   ${artist}
   Venue: ${venue}
@@ -49,7 +56,7 @@ let logSongData = (data) => {
       preview = `No preview available`
 
   console.log(`
-  artists: ${artists}
+  artist(s): ${artists}
   song-title: ${songName}
   album-title: ${albumName}
   ${preview}
@@ -59,8 +66,6 @@ let logSongData = (data) => {
 
 
 let logMovieData = (response) => {
-
-  console.log(response.data)
 
   let movieTitle = response.data.Title;
   let year = response.data.Year;
@@ -90,15 +95,20 @@ let logMovieData = (response) => {
 
 let searchConcert = () => {
 
+  console.log(searchTerm)
   let queryURL = `https://rest.bandsintown.com/artists/${searchTerm}/events?app_id=codingbootcamp`;
+  // let queryURL = `https://rest.bandsintown.com/artists/Miranda+Lambert/events?app_id=codingbootcamp`;
 
-  axios.get(queryURL).then((response) => {
+  axios.get(queryURL)
+    .then((response) => {
 
-    console.log(response.data[0])
+      // console.log(response.data)
+      logConcertData(response)
 
-    logConcertData(response)
-
-  })
+    })
+    .catch (function (error) {
+      console.log(error)
+    })
 
 }
 
@@ -107,15 +117,15 @@ let searchSong = () => {
 
   !searchTerm ? searchTerm = "The+Sign" : searchTerm = searchTerm
 
-    spotify.search({ type: 'track', query: `${searchTerm}` }, function (err, data) {
+  spotify.search({ type: 'track', query: `${searchTerm}` }, function (err, data) {
 
-      if (err) {
-        return console.log('Error occurred: ' + err);
-      }
+    if (err) {
+      return console.log('Error occurred: ' + err);
+    }
 
-      logSongData(data);
+    logSongData(data);
 
-    });
+  });
 
 }
 
@@ -135,11 +145,73 @@ let searchMovie = () => {
 }
 
 
+// READ FILE FUNCTIONS
+let readFile = () => {
+
+  try {
+
+    let fileData = fs.readFileSync("./random.txt", 'utf8');
+    let splitData = fileData.split(",");
+
+    runFileCommand(splitData)
+
+  }
+  catch (e) {
+
+    console.log('Error', e.stack);
+
+  }
+}
+
+let runFileCommand = (fileArray) => {
+
+  action = fileArray[0];
+  artist = fileArray[1].split(",")
+
+  //get search term from file array, join it with a + and remove quotes
+  searchTerm = artist.join("+").replace(/['"]+/g, '');
+
+  performAction();
+
+}
+
+
+
+let performAction = () => {
+
+  switch (action) {
+
+    case "concert-this":
+      console.log("search for a concert");
+      searchConcert();
+      break;
+
+    case "spotify-this-song":
+      console.log("this is a song");
+      searchSong();
+      break;
+
+    case "movie-this":
+      console.log("search the movie api");
+      searchMovie();
+      break;
+
+    case "do-what-it-says":
+      console.log("run from the file");
+      readFile();
+      break;
+
+    default:
+      console.log("please enter valid command");
+      break;
+
+  }
+}
+
+
 
 module.exports = {
 
-  searchSong: searchSong,
-  searchConcert: searchConcert,
-  searchMovie: searchMovie
+  performAction: performAction
 
 }
