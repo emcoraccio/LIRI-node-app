@@ -136,18 +136,18 @@ let searchConcert = () => {
 
 let searchSong = () => {
 
-  !searchTerm ? searchTerm = "The+Sign" : searchTerm = searchTerm
+  !searchTerm ? searchTerm = "the+sign%20artist:ace" : searchTerm = searchTerm
 
-  spotify.search({ type: 'track', query: `${searchTerm}` }, function (err, data) {
+  spotify.request(`https://api.spotify.com/v1/search?q=${searchTerm}&type=track`)
+    .then(function (data) {
 
-    if (err) {
-      return console.log('Error occurred: ' + err);
-    }
+      logSongData(data)
 
-    logSongData(data);
+    }).catch(function (err) {
 
-  });
+      console.error(`error occurred: ${err}`)
 
+    })
 }
 
 
@@ -230,7 +230,6 @@ let performAction = () => {
 }
 
 
-
 let searchType = () => {
 
   inquirer
@@ -276,7 +275,60 @@ let searchQuery = (type) => {
     searchTerm = response.searchName
     searchTerm = searchTerm.split(" ").join("+")
 
-    performAction();
+    if(type.searchType == "song") {
+
+      confirmArtist();
+
+    }
+    else {
+
+      performAction();
+
+    }
+
+  })
+
+}
+
+let confirmArtist = () => {
+  inquirer.prompt([
+
+    {
+      type: "confirm",
+      name: "addArtist",
+      message: "would you like to add the artist to your search?"
+    }
+
+  ]).then(response => {
+
+    if(addArtist) {
+
+      addArtist();
+
+    }
+    else {
+
+      performAction();
+
+    }
+
+  })
+}
+
+let addArtist = () => {
+
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "artist",
+      message: "What is the name of the artist for the song you are looking for?"
+    }
+  ]).then(response => {
+
+    let artistInput = response.artist.split(" ").join("+")
+    searchTerm += `%20artist:${artistInput}`
+
+    searchSong();
 
   })
 
@@ -284,42 +336,44 @@ let searchQuery = (type) => {
 
 let nextEntry = () => {
 
-  inquirer.prompt([
+  if (!process.argv[2]) {
 
-    {
-      type: "confirm",
-      name: "correctSong",
-      message: "Is this the song you were looking for?"
-    }
+    inquirer.prompt([
 
-  ]).then(response => {
+      {
+        type: "confirm",
+        name: "correctSong",
+        message: "Is this the song you were looking for?"
+      }
 
-    if (!response.correctSong) {
-      if (index < 19) {
-        
-        index++
-        searchSong();
+    ]).then(response => {
 
+      if (!response.correctSong) {
+        if (index < 19) {
+
+          index++
+          searchSong();
+
+        }
+        else {
+
+          console.log("That is all of the available song info")
+          index = 0;
+          anotherSearch();
+
+        }
       }
       else {
 
-        console.log("That is all of the available song info")
         index = 0;
         anotherSearch();
 
       }
-    }
-    else {
-
-      index = 0;
-      anotherSearch();
-      
-    }
-
-  }) 
 
 
+    })
 
+  }
 }
 
 let anotherSearch = () => {
@@ -336,7 +390,7 @@ let anotherSearch = () => {
 
     ]).then(response => {
 
-      if (response.searchAgain) searchType() 
+      if (response.searchAgain) searchType()
 
     })
 
