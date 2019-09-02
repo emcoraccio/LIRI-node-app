@@ -12,15 +12,21 @@ The user has two options for completing their search:
       `node liri.js movie-this Shawshank Redemption`
       ![movie search](./assets/images/movie-this-screenshot.png)
 
+      if no movie title is specified it will default to the movie Mr. Nobody
+      `node liri.js movie-this`
+      ![default movie search](./assets/images/default-movie)
+
       * concert-this (use this followed by the name of an artist)
       `node liri.js concert-this Miranda Lambert`
-
       ![concert search](./assets/images/concert-this-screenshot.png)
 
       * spotify-this-song (use this followed by the title of a song)
       `node liri.js spotify-this-song Trampoline`
-
       ![song search](./assets/images/spotify-this-screenshot.png)
+
+      if no song title is specified it will default to the song The Sign
+      `node liri.js spotify-this-song`
+      ![default song search](./assets/images/default-song)
 
       * do-what-it-says (this does not require any extra input)
       `node liri.js do-what-it-says`
@@ -47,6 +53,17 @@ The user has two options for completing their search:
 
     ![inquirer search file](./assets/images/inquirer-run-file.png)
 
+    I also added the ability for users to enter an artist to their song search if they would like to
+    
+    ![inquirer add artist](./assets/images/adding-artist.png)
+    
+    The opportunity to look at other song results if the first one given wasn't the one they were looking for
+    
+    ![inquirer next song](./assets/images/next-song.png)
+    
+    And the ability to continue to make other searches if they would like after one is complete. Until they are done, and then the application will exit
+
+    ![inquirer end searches](./assets/images/end-searches.png)
 
 ## Development
 
@@ -64,4 +81,6 @@ Three main js files are currently being used for this
   - search.js is where all of the main functions for the app are stored - it registers the user input and determines which search functions to use and then exports the two functions
   - liri.js runs the app, accessing the function it needs from the search file depending on user input
 
-This was an assignment I completed myself as part of my coding bootcamp
+This was an assignment I completed myself as part of my coding bootcamp. 
+
+I added inquirer to it to make it more user friendly and added other functionalities beyond the scope of the assignment such as the ability to continue making searches, adding artists to a song search, and being able to look at other song results if the first one presented was not the correct option.
