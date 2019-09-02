@@ -6,36 +6,49 @@ This app is designed for searching for info on movies, songs, or upcoming concer
 
 The user has two options for completing their search:
 
-  1. entering the command and search when starting the app up
-    - valid commands are: 
-      * movie-this (use this followed by a movie title)
+  1. **entering the command and search when starting the app up**
+    valid commands are: 
+
+      * *movie-this* (use this followed by a movie title)
       `node liri.js movie-this Shawshank Redemption`
+
       ![movie search](./assets/images/movie-this-screenshot.png)
+
 
       if no movie title is specified it will default to the movie Mr. Nobody
       `node liri.js movie-this`
+
       ![default movie search](./assets/images/default-movie.png)
 
-      * concert-this (use this followed by the name of an artist)
+
+      * *concert-this* (use this followed by the name of an artist)
       `node liri.js concert-this Miranda Lambert`
+
       ![concert search](./assets/images/concert-this-screenshot.png)
 
-      * spotify-this-song (use this followed by the title of a song)
+
+      * *spotify-this-song* (use this followed by the title of a song)
       `node liri.js spotify-this-song Trampoline`
+
       ![song search](./assets/images/spotify-this-screenshot.png)
 
-      if no song title is specified it will default to the song The Sign
+
+      - if no song title is specified it will default to the song The Sign
       `node liri.js spotify-this-song`
+
       ![default song search](./assets/images/default-song.png)
 
-      * do-what-it-says (this does not require any extra input)
+
+      * *do-what-it-says* (this does not require any extra input)
       `node liri.js do-what-it-says`
 
       ![file search](./assets/images/do-what-it-says-screenshot.png)
+
         this accesses the random.txt file and executes the command in that file
 
 
-  1. starting the app with no command or search paramaters which will launch inquirer for a CLI. This then guides the user through completing the search they would like to make
+
+  1. **starting the app with no command or search paramaters which will launch inquirer for a CLI. This then guides the user through completing the search they would like to make**
 
     `node liri.js`
 
@@ -64,6 +77,7 @@ The user has two options for completing their search:
   And the ability to continue to make other searches if they would like after one is complete. Until they are done, and then the application will exit
 
   ![inquirer end searches](./assets/images/end-searches.png)
+  
 
 ## Development
 
