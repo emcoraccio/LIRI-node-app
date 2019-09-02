@@ -6,9 +6,7 @@ This app is designed for searching for info on movies, songs, or upcoming concer
 
 The user has two options for completing their search:
 
-  1. **entering the command and search when starting the app up**
-    
-    *Valid commands are:*
+  1. **Entering the command and search when starting the app up. Valid commands are:**
 
       * *movie-this* (use this followed by a movie title)
       `node liri.js movie-this Shawshank Redemption`
@@ -49,7 +47,7 @@ The user has two options for completing their search:
 
 
 
-  1. **starting the app with no command or search paramaters which will launch inquirer for a CLI. This then guides the user through completing the search they would like to make**
+  1. **Starting the app with no command or search paramaters which will launch inquirer for a CLI. This then guides the user through completing the search they would like to make**
 
     `node liri.js`
 
