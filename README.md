@@ -1,6 +1,6 @@
 # LIRI-node-app
 
-##Purpose and Use
+## Purpose and Use
 
 This app is designed for searching for info on movies, songs, or upcoming concerts
 
@@ -14,7 +14,7 @@ The user has two options for completing their search:
 
       if no movie title is specified it will default to the movie Mr. Nobody
       `node liri.js movie-this`
-      ![default movie search](./assets/images/default-movie)
+      ![default movie search](./assets/images/default-movie.png)
 
       * concert-this (use this followed by the name of an artist)
       `node liri.js concert-this Miranda Lambert`
@@ -26,7 +26,7 @@ The user has two options for completing their search:
 
       if no song title is specified it will default to the song The Sign
       `node liri.js spotify-this-song`
-      ![default song search](./assets/images/default-song)
+      ![default song search](./assets/images/default-song.png)
 
       * do-what-it-says (this does not require any extra input)
       `node liri.js do-what-it-says`
@@ -39,31 +39,31 @@ The user has two options for completing their search:
 
     `node liri.js`
 
-    ![inquirer main-menu](./assets/images/inquirer-first-menu.png)
+  ![inquirer main-menu](./assets/images/inquirer-first-menu.png)
 
-    ![inquirer search song](./assets/images/inquirer-search-song.png)
+  ![inquirer search song](./assets/images/inquirer-search-song.png)
 
-    ![inquirer search movie](./assets/images/inquirer-search-movie.png)
+  ![inquirer search movie](./assets/images/inquirer-search-movie.png)
 
-    ![inquirer search movie 2](./assets/images/inquirer-search-movie-2.png)
+  ![inquirer search movie 2](./assets/images/inquirer-search-movie-2.png)
 
-    ![inquirer search concert](./assets/images/inquirer-search-concert.png)
+  ![inquirer search concert](./assets/images/inquirer-search-concert.png)
 
-    ![inquirer search file menu](./assets/images/inquirer-menu-run-file.png)
+  ![inquirer search file menu](./assets/images/inquirer-menu-run-file.png)
 
-    ![inquirer search file](./assets/images/inquirer-run-file.png)
+  ![inquirer search file](./assets/images/inquirer-run-file.png)
 
-    I also added the ability for users to enter an artist to their song search if they would like to
+  I also added the ability for users to enter an artist to their song search if they would like to
     
-    ![inquirer add artist](./assets/images/adding-artist.png)
+  ![inquirer add artist](./assets/images/adding-artist.png)
     
-    The opportunity to look at other song results if the first one given wasn't the one they were looking for
+  The opportunity to look at other song results if the first one given wasn't the one they were looking for
     
-    ![inquirer next song](./assets/images/next-song.png)
+  ![inquirer next song](./assets/images/next-song.png)
     
-    And the ability to continue to make other searches if they would like after one is complete. Until they are done, and then the application will exit
+  And the ability to continue to make other searches if they would like after one is complete. Until they are done, and then the application will exit
 
-    ![inquirer end searches](./assets/images/end-searches.png)
+  ![inquirer end searches](./assets/images/end-searches.png)
 
 ## Development
 
