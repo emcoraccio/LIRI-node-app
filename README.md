@@ -7,7 +7,8 @@ This app is designed for searching for info on movies, songs, or upcoming concer
 The user has two options for completing their search:
 
   1. **entering the command and search when starting the app up**
-    valid commands are: 
+    
+    *Valid commands are:*
 
       * *movie-this* (use this followed by a movie title)
       `node liri.js movie-this Shawshank Redemption`
@@ -15,7 +16,7 @@ The user has two options for completing their search:
       ![movie search](./assets/images/movie-this-screenshot.png)
 
 
-      if no movie title is specified it will default to the movie Mr. Nobody
+      If no movie title is specified it will default to the movie Mr. Nobody
       `node liri.js movie-this`
 
       ![default movie search](./assets/images/default-movie.png)
@@ -33,7 +34,7 @@ The user has two options for completing their search:
       ![song search](./assets/images/spotify-this-screenshot.png)
 
 
-      - if no song title is specified it will default to the song The Sign
+      If no song title is specified it will default to the song The Sign
       `node liri.js spotify-this-song`
 
       ![default song search](./assets/images/default-song.png)
@@ -74,7 +75,9 @@ The user has two options for completing their search:
     
   ![inquirer next song](./assets/images/next-song.png)
     
-  And the ability to continue to make other searches if they would like after one is complete. Until they are done, and then the application will exit
+  And the ability to continue to make other searches if they would like after one is complete. This will bring them back to the original menu to make another selection. Once they say they would no longer like to make another search, the application will exit
+
+  ![inquirer more searches](./assets/images/make-another-search.png)
 
   ![inquirer end searches](./assets/images/end-searches.png)
   
