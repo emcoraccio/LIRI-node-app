@@ -13,6 +13,7 @@ let keys = require("./keys.js");
 var spotify = new Spotify(keys.spotify);
 
 let artist = ""
+let songLength;
 let action;
 let searchTerm;
 let index = 0;
@@ -141,6 +142,7 @@ let searchSong = () => {
   spotify.request(`https://api.spotify.com/v1/search?q=${searchTerm}&type=track`)
     .then(function (data) {
 
+      songLength = data.tracks.items.length - 1
       logSongData(data)
 
     }).catch(function (err) {
@@ -197,7 +199,7 @@ let runFileCommand = (fileArray) => {
 }
 
 
-
+// Switch statement to run correct action
 let performAction = () => {
 
   switch (action) {
@@ -230,6 +232,7 @@ let performAction = () => {
 }
 
 
+// INQUIRER FUNCTIONS
 let searchType = () => {
 
   inquirer
@@ -259,6 +262,7 @@ let searchType = () => {
 
     })
 }
+
 
 let searchQuery = (type) => {
 
@@ -290,18 +294,19 @@ let searchQuery = (type) => {
 
 }
 
+
 let confirmArtist = () => {
   inquirer.prompt([
 
     {
       type: "confirm",
-      name: "addArtist",
+      name: "confirmArtist",
       message: "would you like to add the artist to your search?"
     }
 
   ]).then(response => {
 
-    if(addArtist) {
+    if(response.confirmArtist) {
 
       addArtist();
 
@@ -314,6 +319,7 @@ let confirmArtist = () => {
 
   })
 }
+
 
 let addArtist = () => {
 
@@ -334,6 +340,7 @@ let addArtist = () => {
 
 }
 
+
 let nextEntry = () => {
 
   if (!process.argv[2]) {
@@ -349,7 +356,7 @@ let nextEntry = () => {
     ]).then(response => {
 
       if (!response.correctSong) {
-        if (index < 19) {
+        if (index < songLength) {
 
           index++
           searchSong();
@@ -376,6 +383,7 @@ let nextEntry = () => {
   }
 }
 
+
 let anotherSearch = () => {
 
   if (!process.argv[2]) {
@@ -397,7 +405,6 @@ let anotherSearch = () => {
   }
 
 }
-
 
 
 module.exports = {
